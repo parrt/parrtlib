@@ -6,11 +6,9 @@
 
 package us.parr.lib.collections;
 
-import us.parr.lib.ParrtMath;
 import us.parr.lib.ParrtStats;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -101,20 +99,6 @@ public class CountingSet<T> extends HashMap<T, MutableInt> {
 	}
 
 	public double entropy() {
-		return entropy( counts() );
+		return ParrtStats.entropy( counts() );
 	}
-
-	/** Compute the entropy from a collection of counts */
-	public static double entropy(Collection<Integer> counts) {
-		double entropy = 0.0;
-		int n = ParrtStats.sum(counts);
-		for (Integer v : counts) {
-			if ( v==0 ) continue; // avoid log(0), which is undefined
-			double p = ((double)v) / n;
-			entropy += p * ParrtMath.log2(p);
-		}
-		entropy = -entropy;
-		return entropy;
-	}
-
 }
