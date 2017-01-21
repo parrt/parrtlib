@@ -15,8 +15,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class ParrtCollections {
-	public static CountingSet<Integer> valueCountsInColumn(List<int[]> X, int splitVariable) {
-		CountingSet<Integer> valueCounts = new CountingSet<>();
+	public static CountingHashSet<Integer> valueCountsInColumn(List<int[]> X, int splitVariable) {
+		CountingHashSet<Integer> valueCounts = new CountingHashSet<>();
 		for (int i = 0; i<X.size(); i++) { // for each row, count different values for col splitVariable
 			int[] row = X.get(i);
 			int col = row[splitVariable];

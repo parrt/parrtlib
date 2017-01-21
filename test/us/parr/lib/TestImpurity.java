@@ -1,7 +1,7 @@
 package us.parr.lib;
 
 import org.junit.Test;
-import us.parr.lib.collections.CountingSet;
+import us.parr.lib.collections.CountingHashSet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,7 @@ public class TestImpurity {
 
 	@Test public void testCategoriesFromRestaurant() {
 		int[] willwait = new int[] {1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1};
-		CountingSet<Object> valueToCounts = new CountingSet<>();
+		CountingHashSet<Object> valueToCounts = new CountingHashSet<>();
 		for (int wait : willwait) {
 			valueToCounts.add(wait);
 		}
@@ -63,7 +63,7 @@ public class TestImpurity {
 
 	@Test public void testCategoriesFromSignups() {
 		int[] signups = new int[] {1, 3, 2, 2, 3, 1, 2, 3, 1, 1, 1, 1, 2, 1, 2, 2};
-		CountingSet<Object> valueToCounts = new CountingSet<>();
+		CountingHashSet<Object> valueToCounts = new CountingHashSet<>();
 		for (int signup : signups) {
 			valueToCounts.add(signup);
 		}

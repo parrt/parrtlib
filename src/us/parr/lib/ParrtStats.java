@@ -6,7 +6,7 @@
 
 package us.parr.lib;
 
-import us.parr.lib.collections.CountingSet;
+import us.parr.lib.collections.CountingHashSet;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -182,7 +182,7 @@ public class ParrtStats {
 
 	public static int majorityVote(Collection<Integer> data) {
 		if ( data.size()==0 ) return 0;
-		CountingSet<Integer> valueCounts = new CountingSet<>();
+		CountingHashSet<Integer> valueCounts = new CountingHashSet<>();
 		for (Integer d : data) {
 			valueCounts.add(d);
 		}
