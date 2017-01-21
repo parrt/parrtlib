@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static us.parr.lib.ParrtMath.log2;
+
 /** Count how many of each key we have; not thread safe */
 public class CountingSet<T> extends HashMap<T, MutableInt> {
 	public CountingSet() {
@@ -99,6 +101,14 @@ public class CountingSet<T> extends HashMap<T, MutableInt> {
 	}
 
 	public double entropy() {
-		return ParrtStats.entropy( counts() );
+		double entropy = 0.0;
+		int n = total();
+		for (MutableInt i : values()) {
+			if ( i.v==0 ) continue; // avoid log(0), which is undefined
+			double p = ((double)i.v) / n;
+			entropy += p * log2(p);
+		}
+		entropy = -entropy;
+		return entropy;
 	}
 }
