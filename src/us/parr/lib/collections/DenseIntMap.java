@@ -93,7 +93,9 @@ public class DenseIntMap<T> implements Map<Integer, T> {
 	public void forEach(BiConsumer<? super Integer, ? super T> action) {
 		Objects.requireNonNull(action);
 		for (int i = 0; i<buckets.length; i++) {
-			action.accept(i, buckets[i]);
+			if ( buckets[i]!=null ) {
+				action.accept(i, buckets[i]);
+			}
 		}
 	}
 }
