@@ -17,9 +17,9 @@ public class CountingHashSet<T> extends HashMap<T, MutableInt> implements Counti
 	public CountingHashSet() {
 	}
 
-	public CountingHashSet(CountingHashSet<T> old) {
+	public CountingHashSet(CountingSet<T> old) {
 		for (T key : old.keySet()) {
-			put(key, new MutableInt(old.get(key).v)); // make sure MutableInts are copied deeply
+			put(key, new MutableInt(old.count(key))); // make sure MutableInts are copied deeply
 		}
 	}
 
@@ -36,15 +36,15 @@ public class CountingHashSet<T> extends HashMap<T, MutableInt> implements Counti
 	}
 
 	@Override
-	public void add(T key) {
-		MutableInt value = get(key);
-		if (value == null) {
-			value = new MutableInt(1);
-			put(key, value);
+	public boolean add(T key) {
+		MutableInt old = get(key);
+		if (old == null) {
+			put(key, new MutableInt(1));
 		}
 		else {
-			value.v++;
+			old.v++;
 		}
+		return old==null;
 	}
 
 	@Override
@@ -74,6 +74,20 @@ public class CountingHashSet<T> extends HashMap<T, MutableInt> implements Counti
 		List<T> keys = new ArrayList<>();
 		keys.addAll(keySet());
 		return keys;
+	}
+
+	/** Return a new set containing this[i]-x[i] for all keys i. Values in x
+	 *  but not in this are ignored.  Values in this but not in x yield this's same value
+	 *  in the result.
+	 */
+	public CountingHashSet<T> minus(CountingSet<T> x) {
+		CountingHashSet<T> r = new CountingHashSet<T>(this);
+		for (T key : r.keySet()) {
+			if ( x.contains(key) ) {
+				r.put(key, new MutableInt(r.count(key) - x.count(key))); // can't alter any MutableInts
+			}
+		}
+		return r;
 	}
 
 	@Override

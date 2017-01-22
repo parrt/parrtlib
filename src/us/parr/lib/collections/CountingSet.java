@@ -4,26 +4,11 @@ import java.util.List;
 import java.util.Set;
 
 public interface CountingSet<T> {
-	/** Return a new set containing a[i]-b[i] for all keys i. Values in b
-	 *  but not in a are ignored.  Values in a but not in b yield a's same value
-	 *  in the result.
-	 */
-	static <T> CountingHashSet<T> minus(CountingHashSet<T> a, CountingHashSet<T> b) {
-		CountingHashSet<T> r = new CountingHashSet<T>(a);
-		for (T key : r.keySet()) {
-			MutableInt bI = b.get(key);
-			if ( bI!=null ) {
-				r.put(key, new MutableInt(r.get(key).v - bI.v)); // can't alter any MutableInts
-			}
-		}
-		return r;
-	}
-
 	Set<T> keySet();
 
 	boolean contains(Object o);
 
-	public void add(T key);
+	boolean add(T key);
 
 	int count(T key);
 
@@ -35,6 +20,8 @@ public interface CountingSet<T> {
 	int size();
 
 	List<Integer> counts();
+
+	CountingSet<T> minus(CountingSet<T> a);
 
 	/** Return the key with the max count; tie goes to first cat at max found. */
 	T argmax();
