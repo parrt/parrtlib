@@ -105,15 +105,16 @@ public class CountingDenseIntSet implements CountingSet<Integer> {
 
 	@Override
 	public Integer argmax() {
-		int m = -1;
+		int m = 0;
 		int mi = -1;
 		// find first non-zero entry from right
 		for (int i = set.length-1; i>=0; --i) {
-			if ( set[i]>0 ) {
-				return i;
+			if ( set[i]>m ) {
+				m = set[i];
+				mi = i;
 			}
 		}
-		return -1;
+		return mi;
 	}
 
 	@Override
