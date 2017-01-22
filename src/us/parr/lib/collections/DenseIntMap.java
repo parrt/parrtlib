@@ -2,7 +2,9 @@ package us.parr.lib.collections;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.function.BiConsumer;
 
 public class DenseIntMap<T> implements Map<Integer, T> {
 	protected T[] buckets;
@@ -86,5 +88,12 @@ public class DenseIntMap<T> implements Map<Integer, T> {
 	@Override
 	public Set<Entry<Integer, T>> entrySet() {
 		throw new UnsupportedOperationException();
+	}
+
+	public void forEach(BiConsumer<? super Integer, ? super T> action) {
+		Objects.requireNonNull(action);
+		for (int i = 0; i<buckets.length; i++) {
+			action.accept(i, buckets[i]);
+		}
 	}
 }
