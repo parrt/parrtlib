@@ -1,6 +1,7 @@
 package us.parr.lib.collections;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -13,6 +14,19 @@ public class CountingDenseIntSet implements CountingSet<Integer> {
 
 	public CountingDenseIntSet(int maxSetValue) {
 		set = new int[maxSetValue+1];
+	}
+
+	public CountingDenseIntSet(CountingSet<Integer> old) {
+		if ( old instanceof CountingDenseIntSet ) {
+			int[] oldset = ((CountingDenseIntSet) old).set;
+			this.set = Arrays.copyOf(oldset, oldset.length);
+		}
+		else {
+			this.set = new int[old.size()];
+			for (Integer key : old.keySet()) {
+				set[key] = old.count(key);
+			}
+		}
 	}
 
 	@Override
