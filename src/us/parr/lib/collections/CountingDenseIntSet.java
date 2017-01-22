@@ -91,9 +91,14 @@ public class CountingDenseIntSet implements CountingSet<Integer> {
 
 	public CountingDenseIntSet minus(CountingDenseIntSet x) {
 		CountingDenseIntSet r = new CountingDenseIntSet(this.set.length-1);
-		for (int i = 0; i<set.length; i++) {
-			if ( this.set[i]>0 && x.set[i]>0 ) {
-				r.set[i] = this.set[i] - x.set[i];
+		for (int i = 0; i<this.set.length; i++) {
+			if ( this.set[i]>0 ) {
+				if ( x.set[i]>0 ) {
+					r.set[i] = this.set[i]-x.set[i];
+				}
+				else {
+					r.set[i] = this.set[i];
+				}
 			}
 		}
 		return r;
