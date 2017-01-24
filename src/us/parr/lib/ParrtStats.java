@@ -48,6 +48,14 @@ public class ParrtStats {
 		return sum;
 	}
 
+	public static int sum(int[] data) {
+		int sum = 0;
+		for (int d : data) {
+			sum += d;
+		}
+		return sum;
+	}
+
 	public static float sumFloats(Collection<Float> data) {
 		float sum = 0;
 		for (float d : data) {
@@ -143,6 +151,18 @@ public class ParrtStats {
 		double entropy = 0.0;
 		int n = sum(counts);
 		for (Integer v : counts) {
+			if ( v==0 ) continue; // avoid log(0), which is undefined
+			double p = ((double)v) / n;
+			entropy += p * log2(p);
+		}
+		entropy = -entropy;
+		return entropy;
+	}
+
+	public static double entropy(int[] counts) {
+		double entropy = 0.0;
+		int n = sum(counts);
+		for (int v : counts) {
 			if ( v==0 ) continue; // avoid log(0), which is undefined
 			double p = ((double)v) / n;
 			entropy += p * log2(p);
