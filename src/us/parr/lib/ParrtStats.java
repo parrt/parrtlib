@@ -126,11 +126,11 @@ public class ParrtStats {
 		return ((float)sum) / data.length;
 	}
 
-	/** r = a - b */
+	/** r = a - b; truncate results to length of r */
 	public static void minus(int[] a, int[] b, int[] r) {
 		if ( a==null || b==null || r==null ) return;
-		if ( a.length!=b.length || a.length!=r.length ) return;
-		for (int i = 0; i<a.length; i++) {
+		if ( a.length!=b.length || r.length<a.length ) return;
+		for (int i = 0; i<r.length; i++) {
 			r[i] = a[i] - b[i];
 		}
 	}
