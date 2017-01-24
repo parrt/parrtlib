@@ -118,6 +118,15 @@ public class ParrtStats {
 		return ((float)sum) / data.length;
 	}
 
+	/** r = a - b */
+	public static void minus(int[] a, int[] b, int[] r) {
+		if ( a==null || b==null || r==null ) return;
+		if ( a.length!=b.length || a.length!=r.length ) return;
+		for (int i = 0; i<a.length; i++) {
+			r[i] = a[i] - b[i];
+		}
+	}
+
 	/** Compute the gini impurity from a collection of counts */
 	public static double gini(Collection<Integer> counts) {
 		double impurity = 0.0;
