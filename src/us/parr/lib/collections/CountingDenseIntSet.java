@@ -78,6 +78,10 @@ public class CountingDenseIntSet implements CountingSet<Integer> {
 		return n;
 	}
 
+	public int[] toDenseArray() {
+		return set;
+	}
+
 	@Override
 	public List<Integer> counts() {
 		List<Integer> c = new ArrayList<>();
