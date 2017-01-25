@@ -180,32 +180,33 @@ public class ParrtStats {
 		return values;
 	}
 
-	/** From data, grab n records at random with replacement */
+	/** From data, grab data.size() records at random with replacement */
 	public static List<int[]> bootstrapWithRepl(List<int[]> data) {
-		return bootstrapWithRepl(data, null);
+		return bootstrapWithRepl(data, data.size(), null);
+	}
+
+	/** From data, grab n records at random with replacement */
+	public static List<int[]> bootstrapWithRepl(List<int[]> data, int n) {
+		return bootstrapWithRepl(data, n, null);
 	}
 
 	/** From data, grab n records at random with replacement, fill in oob with
 	 *  data NOT in returned bootstrap (if non-null).
 	 */
-	public static List<int[]> bootstrapWithRepl(List<int[]> data, Set<Integer> oob) {
-		int[] indexes = randint(data.size(), data.size());
-//		Set<Integer> in = new HashSet<>();
+	public static List<int[]> bootstrapWithRepl(List<int[]> data, int n, Set<Integer> oob) {
+		int[] indexes = randint(n, data.size());
 		if ( oob!=null ) {
-			for (int i = 0; i<data.size(); i++) {
+			for (int i = 0; i<n; i++) {
 				oob.add(i);
 			}
 		}
 		List<int[]> bootstrap = new ArrayList<>(indexes.length);
 		for (int i : indexes) {
 			bootstrap.add(data.get(i));
-//			in.add(i);
 			if ( oob!=null ) {
 				oob.remove(i); // make sure bootstrap records are not in oob
 			}
 		}
-//		Set<Integer> intersection = intersection(in, oob); // should be empty
-//		System.out.println(intersection);
 		return bootstrap;
 	}
 
