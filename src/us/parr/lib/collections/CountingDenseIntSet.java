@@ -150,4 +150,20 @@ public class CountingDenseIntSet implements CountingSet<Integer> {
 		entropy = -entropy;
 		return entropy;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder buf = new StringBuilder();
+		buf.append("{");
+		for (int i = 0; i<set.length; i++) {
+			if ( set[i]>0 ) {
+				if ( i>0 ) buf.append(", ");
+				buf.append(i);
+				buf.append("=");
+				buf.append(set[i]);
+			}
+		}
+		buf.append("}");
+		return buf.toString();
+	}
 }
