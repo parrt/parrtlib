@@ -128,8 +128,8 @@ public class CountingDenseIntSet implements CountingSet<Integer> {
 	public Integer argmax() {
 		int m = 0;
 		int mi = -1;
-		// find first non-zero entry from right
-		for (int i = set.length-1; i>=0; --i) {
+		// find first non-zero entry from left
+		for (int i = 0; i<set.length; i++) {
 			if ( set[i]>m ) {
 				m = set[i];
 				mi = i;
