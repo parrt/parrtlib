@@ -155,12 +155,14 @@ public class CountingDenseIntSet implements CountingSet<Integer> {
 	public String toString() {
 		StringBuilder buf = new StringBuilder();
 		buf.append("{");
+		int n = 0;
 		for (int i = 0; i<set.length; i++) {
 			if ( set[i]>0 ) {
-				if ( i>0 ) buf.append(", ");
+				if ( n>0 ) buf.append(", ");
 				buf.append(i);
 				buf.append("=");
 				buf.append(set[i]);
+				n++;
 			}
 		}
 		buf.append("}");
