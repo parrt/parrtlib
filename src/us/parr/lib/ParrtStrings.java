@@ -1,6 +1,6 @@
 package us.parr.lib;
 
-public class ParrStrings {
+public class ParrtStrings {
 	public static String spaces(int n) {
 		return sequence(n, " ");
 	}

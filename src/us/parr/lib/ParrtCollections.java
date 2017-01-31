@@ -4,7 +4,9 @@
  * can be found in the LICENSE file in the project root.
  */
 
-package us.parr.lib.collections;
+package us.parr.lib;
+
+import us.parr.lib.collections.CountingHashSet;
 
 import java.util.ArrayList;
 import java.util.Collection;

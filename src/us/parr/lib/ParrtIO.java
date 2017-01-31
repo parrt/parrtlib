@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static us.parr.lib.ParrStrings.expandTabs;
+import static us.parr.lib.ParrtStrings.expandTabs;
 
 public class ParrtIO {
 	public static String load(String fileName, int tabSize)
