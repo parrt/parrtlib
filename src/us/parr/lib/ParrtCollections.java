@@ -11,20 +11,31 @@ import us.parr.lib.collections.CountingHashSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class ParrtCollections {
-	public static CountingHashSet<Integer> valueCountsInColumn(List<int[]> X, int splitVariable) {
+	public static CountingHashSet<Integer> valueCountsInColumn(List<int[]> X, int colIndex) {
 		CountingHashSet<Integer> valueCounts = new CountingHashSet<>();
-		for (int i = 0; i<X.size(); i++) { // for each row, count different values for col splitVariable
+		for (int i = 0; i<X.size(); i++) { // for each row, count different values for col colIndex
 			int[] row = X.get(i);
-			int col = row[splitVariable];
+			int col = row[colIndex];
 			valueCounts.add(col);
 		}
 		return valueCounts;
+	}
+
+	public static List<Integer> add(Collection<Integer> a, Collection<Integer> b) {
+		List<Integer> result = new ArrayList<>();
+		Iterator<Integer> ita = b.iterator();
+		Iterator<Integer> itb = b.iterator();
+		while ( ita.hasNext() && itb.hasNext() ) {
+			result.add(ita.next() + itb.next());
+		}
+		return result;
 	}
 
 	public static <T> List<T> filter(List<T> data, Predicate<T> pred) {

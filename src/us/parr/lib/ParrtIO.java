@@ -6,12 +6,15 @@
 
 package us.parr.lib;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -47,7 +50,7 @@ public class ParrtIO {
 
 		// otherwise, if this is an input file, load it!
 		else if ( inputFilePattern==null || f.getName().matches(inputFilePattern) ) {
-		  	files.add(f.getAbsolutePath());
+			files.add(f.getAbsolutePath());
 		}
 	}
 
@@ -75,6 +78,43 @@ public class ParrtIO {
 			if ( osw!=null ) {
 				try {
 					osw.close();
+				}
+				catch (IOException ioe) {
+					throw new RuntimeException(ioe);
+				}
+			}
+		}
+	}
+
+	public static String read(InputStream stream) {
+		return read(stream, null);
+	}
+
+	public static String read(InputStream stream, String encoding) {
+		InputStreamReader isr = null;
+		try {
+			if ( encoding!=null ) {
+				isr = new InputStreamReader(stream, encoding);
+			}
+			else {
+				isr = new InputStreamReader(stream);
+			}
+			BufferedReader br = new BufferedReader(isr);
+			StringWriter sw = new StringWriter();
+			int n;
+			char[] data = new char[4096];
+			while ((n = br.read(data, 0, data.length)) != -1) {
+				sw.write(data, 0, n);
+			}
+			return sw.toString();
+		}
+		catch (IOException ioe) {
+			throw new RuntimeException(ioe);
+		}
+		finally {
+			if ( isr!=null ) {
+				try {
+					isr.close();
 				}
 				catch (IOException ioe) {
 					throw new RuntimeException(ioe);

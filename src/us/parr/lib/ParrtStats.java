@@ -56,6 +56,14 @@ public class ParrtStats {
 		return sum;
 	}
 
+	public static double sum(double[] data) {
+		double sum = 0;
+		for (double d : data) {
+			sum += d;
+		}
+		return sum;
+	}
+
 	public static float sumFloats(Collection<Float> data) {
 		float sum = 0;
 		for (float d : data) {
@@ -124,15 +132,6 @@ public class ParrtStats {
 			sum += d;
 		}
 		return ((float)sum) / data.length;
-	}
-
-	/** r = a - b; truncate results to length of r */
-	public static void minus(int[] a, int[] b, int[] r) {
-		if ( a==null || b==null || r==null ) return;
-		if ( a.length<r.length || b.length<r.length ) return;
-		for (int i = 0; i<r.length; i++) {
-			r[i] = a[i] - b[i];
-		}
 	}
 
 	/** Compute the gini impurity from a collection of counts */
