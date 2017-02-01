@@ -181,32 +181,39 @@ public class ParrtStats {
 
 	/** From data, grab data.size() records at random with replacement */
 	public static List<int[]> bootstrapWithRepl(List<int[]> data) {
-		return bootstrapWithRepl(data, data.size(), null);
+		return bootstrapWithRepl(data, data.size());
 	}
 
 	/** From data, grab n records at random with replacement */
 	public static List<int[]> bootstrapWithRepl(List<int[]> data, int n) {
-		return bootstrapWithRepl(data, n, null);
+		List<int[]> bootstrap = new ArrayList<>(data.size());
+		bootstrapWithRepl(data, n, bootstrap, null);
+		return bootstrap;
 	}
 
 	/** From data, grab n records at random with replacement, fill in oob with
 	 *  data NOT in returned bootstrap (if non-null).
 	 */
-	public static List<int[]> bootstrapWithRepl(List<int[]> data, int n, Set<Integer> oob) {
-		int[] indexes = randint(n, data.size());
+	public static void bootstrapWithRepl(List<int[]> data, int n, List<int[]> bootstrapOut, Set<Integer> oob) {
 		if ( oob!=null ) {
 			for (int i = 0; i<n; i++) {
 				oob.add(i);
 			}
 		}
-		List<int[]> bootstrap = new ArrayList<>(indexes.length);
-		for (int i : indexes) {
-			bootstrap.add(data.get(i));
+		int highValue = data.size();
+		for (int i = 0; i<n; i++) {
+			int ri = random.nextInt(highValue);
+			int[] rrow = data.get(ri);
+			if ( i>=bootstrapOut.size() ) {
+				bootstrapOut.add(rrow);
+			}
+			else {
+				bootstrapOut.set(i, rrow);
+			}
 			if ( oob!=null ) {
 				oob.remove(i); // make sure bootstrap records are not in oob
 			}
 		}
-		return bootstrap;
 	}
 
 	public static int majorityVote(Collection<Integer> data) {
