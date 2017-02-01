@@ -10,9 +10,12 @@ import us.parr.lib.collections.CountingHashSet;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -195,5 +198,39 @@ public class ParrtCollections {
 			}
 		}
 		return buf.toString();
+	}
+
+	/** Set the size of a list, filling with null if necessary.
+	 *  Trim to size if less than current size.
+	 */
+	public static void setSize(List<?> list, int size) {
+		if (size < list.size()) {
+			list.subList(size, list.size()).clear();
+		}
+		else {
+			while (size > list.size()) {
+				list.add(null);
+			}
+		}
+	}
+
+	/** Sort a list into a new list; don't alter data argument */
+	public <T extends Comparable<? super T>> List<T> sorted(List<T> data) {
+		List<T> dup = new ArrayList<T>();
+		dup.addAll(data);
+		Collections.sort(dup);
+		return dup;
+	}
+
+	/** Return a LinkedHashMap sorted by key */
+	public <K extends Comparable<? super K>,V> LinkedHashMap<K,V> sorted(Map<K,V> data) {
+		LinkedHashMap<K,V> dup = new LinkedHashMap<K, V>();
+		List<K> keys = new ArrayList<K>();
+		keys.addAll(data.keySet());
+		Collections.sort(keys);
+		for (K k : keys) {
+			dup.put(k, data.get(k));
+		}
+		return dup;
 	}
 }

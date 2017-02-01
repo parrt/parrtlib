@@ -154,6 +154,18 @@ public class ParrtIO {
 		}
 	}
 
+	public static void mkdir(String dir) {
+		File f = new File(dir);
+		f.mkdirs();
+	}
+
+	public static String stripFileExtension(String name) {
+		if ( name==null ) return null;
+		int lastDot = name.lastIndexOf('.');
+		if ( lastDot<0 ) return name;
+		return name.substring(0, lastDot);
+	}
+
 	public static List<String> getFilenames(File f, String inputFilePattern) throws Exception {
 		List<String> files = new ArrayList<>();
 		getFilenames_(f, inputFilePattern, files);
@@ -174,4 +186,24 @@ public class ParrtIO {
 			files.add(f.getAbsolutePath());
 		}
 	}
+
+	protected void rmFilesIn(final String dir, final String filePattern) {
+        File tmpdirF = new File(dir);
+        String[] files = tmpdirF.list();
+        for(int i = 0; files!=null && i < files.length; i++) {
+            if ( filePattern==null || files[i].matches(filePattern) ) {
+                new File(dir+"/"+files[i]).delete();
+            }
+        }
+    }
+
+    protected void rmFilesIn(final String dir) { rmFilesIn(dir, null); }
+
+    public void rmdir(final String dir) {
+        File f = new File(dir);
+        if ( f.exists() ) {
+            rmFilesIn(dir);
+            f.delete();
+        }
+    }
 }
