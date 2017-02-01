@@ -24,33 +24,101 @@ import java.util.List;
 import static us.parr.lib.ParrtStrings.expandTabs;
 
 public class ParrtIO {
-	public static String load(String fileName, int tabSize)
-		throws Exception
-	{
-		byte[] filearray = Files.readAllBytes(Paths.get(fileName));
-		String content = new String(filearray);
-		String notabs = expandTabs(content, tabSize);
-		return notabs;
+	public static String load(String fileName, int tabSize) {
+		try {
+			byte[] filearray = Files.readAllBytes(Paths.get(fileName));
+			String content = new String(filearray);
+			String notabs = expandTabs(content, tabSize);
+			return notabs;
+		}
+		catch (IOException ioe) {
+			throw new RuntimeException(ioe);
+		}
 	}
 
-	public static List<String> getFilenames(File f, String inputFilePattern) throws Exception {
-		List<String> files = new ArrayList<>();
-		getFilenames_(f, inputFilePattern, files);
-		return files;
+	/** Load an ascii file into a string */
+	public static String load(String fileName) {
+		try {
+			byte[] filearray = Files.readAllBytes(Paths.get(fileName));
+			return new String(filearray);
+		}
+		catch (IOException ioe) {
+			throw new RuntimeException(ioe);
+		}
 	}
 
-	public static void getFilenames_(File f, String inputFilePattern, List<String> files) {
-		// If this is a directory, walk each file/dir in that directory
-		if (f.isDirectory()) {
-			String flist[] = f.list();
-			for (String aFlist : flist) {
-				getFilenames_(new File(f, aFlist), inputFilePattern, files);
+	/** Load a file using an encoding into a char[]. If encoding==null,
+	 *  use whatever the default locale says the encoding is.
+	 */
+	public static char[] load(String fileName, String encoding) {
+		InputStreamReader isr = null;
+		char[] data = null;
+		try {
+			File f = new File(fileName);
+			int size = (int)f.length();
+			FileInputStream fis = new FileInputStream(fileName);
+			if ( encoding!=null ) {
+				isr = new InputStreamReader(fis, encoding);
+			}
+			else {
+				isr = new InputStreamReader(fis);
+			}
+			data = new char[size];
+			int n = isr.read(data);
+			if (n < data.length) {
+				data = Arrays.copyOf(data, n);
+			}
+			return data;
+		}
+		catch (IOException ioe) {
+			throw new RuntimeException(ioe);
+		}
+		finally {
+			if ( isr!=null ) {
+				try {
+					isr.close();
+				}
+				catch (IOException ioe) {
+					throw new RuntimeException(ioe);
+				}
 			}
 		}
+	}
 
-		// otherwise, if this is an input file, load it!
-		else if ( inputFilePattern==null || f.getName().matches(inputFilePattern) ) {
-			files.add(f.getAbsolutePath());
+	public static String read(InputStream stream) {
+		return read(stream, null);
+	}
+
+	public static String read(InputStream stream, String encoding) {
+		InputStreamReader isr = null;
+		try {
+			if ( encoding!=null ) {
+				isr = new InputStreamReader(stream, encoding);
+			}
+			else {
+				isr = new InputStreamReader(stream);
+			}
+			BufferedReader br = new BufferedReader(isr);
+			StringWriter sw = new StringWriter();
+			int n;
+			char[] data = new char[4096];
+			while ((n = br.read(data, 0, data.length)) > 0) {
+				sw.write(data, 0, n);
+			}
+			return sw.toString();
+		}
+		catch (IOException ioe) {
+			throw new RuntimeException(ioe);
+		}
+		finally {
+			if ( isr!=null ) {
+				try {
+					isr.close();
+				}
+				catch (IOException ioe) {
+					throw new RuntimeException(ioe);
+				}
+			}
 		}
 	}
 
@@ -86,79 +154,24 @@ public class ParrtIO {
 		}
 	}
 
-	public static String read(InputStream stream) {
-		return read(stream, null);
+	public static List<String> getFilenames(File f, String inputFilePattern) throws Exception {
+		List<String> files = new ArrayList<>();
+		getFilenames_(f, inputFilePattern, files);
+		return files;
 	}
 
-	public static String read(InputStream stream, String encoding) {
-		InputStreamReader isr = null;
-		try {
-			if ( encoding!=null ) {
-				isr = new InputStreamReader(stream, encoding);
-			}
-			else {
-				isr = new InputStreamReader(stream);
-			}
-			BufferedReader br = new BufferedReader(isr);
-			StringWriter sw = new StringWriter();
-			int n;
-			char[] data = new char[4096];
-			while ((n = br.read(data, 0, data.length)) != -1) {
-				sw.write(data, 0, n);
-			}
-			return sw.toString();
-		}
-		catch (IOException ioe) {
-			throw new RuntimeException(ioe);
-		}
-		finally {
-			if ( isr!=null ) {
-				try {
-					isr.close();
-				}
-				catch (IOException ioe) {
-					throw new RuntimeException(ioe);
-				}
+	public static void getFilenames_(File f, String inputFilePattern, List<String> files) {
+		// If this is a directory, walk each file/dir in that directory
+		if (f.isDirectory()) {
+			String flist[] = f.list();
+			for (String aFlist : flist) {
+				getFilenames_(new File(f, aFlist), inputFilePattern, files);
 			}
 		}
-	}
 
-	public static char[] read(String fileName) {
-		return read(fileName, null);
-	}
-
-	public static char[] read(String fileName, String encoding) {
-		InputStreamReader isr = null;
-		char[] data = null;
-		try {
-			File f = new File(fileName);
-			int size = (int)f.length();
-			FileInputStream fis = new FileInputStream(fileName);
-			if ( encoding!=null ) {
-				isr = new InputStreamReader(fis, encoding);
-			}
-			else {
-				isr = new InputStreamReader(fis);
-			}
-			data = new char[size];
-			int n = isr.read(data);
-			if (n < data.length) {
-				data = Arrays.copyOf(data, n);
-			}
+		// otherwise, if this is an input file, load it!
+		else if ( inputFilePattern==null || f.getName().matches(inputFilePattern) ) {
+			files.add(f.getAbsolutePath());
 		}
-		catch (IOException ioe) {
-			throw new RuntimeException(ioe);
-		}
-		finally {
-			if ( isr!=null ) {
-				try {
-					isr.close();
-				}
-				catch (IOException ioe) {
-					throw new RuntimeException(ioe);
-				}
-			}
-		}
-		return data;
 	}
 }
