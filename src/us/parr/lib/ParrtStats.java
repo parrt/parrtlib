@@ -186,7 +186,7 @@ public class ParrtStats {
 
 	/** From data, grab n records at random with replacement */
 	public static List<int[]> bootstrapWithRepl(List<int[]> data, int n) {
-		List<int[]> bootstrap = new ArrayList<>(data.size());
+		List<int[]> bootstrap = new ArrayList<>(n);
 		bootstrapWithRepl(data, n, bootstrap, null);
 		return bootstrap;
 	}
