@@ -31,22 +31,28 @@ public class ParrtCollections {
 		return valueCounts;
 	}
 
-	public static List<Integer> add(Collection<Integer> a, Collection<Integer> b) {
-		List<Integer> result = new ArrayList<>();
-		Iterator<Integer> ita = b.iterator();
-		Iterator<Integer> itb = b.iterator();
-		while ( ita.hasNext() && itb.hasNext() ) {
-			result.add(ita.next() + itb.next());
-		}
-		return result;
-	}
-
 	public static <T> List<T> filter(List<T> data, Predicate<T> pred) {
 		List<T> output = new ArrayList<>();
 		if ( data!=null ) for (T x : data) {
 			if ( pred.test(x) ) {
 				output.add(x);
 			}
+		}
+		return output;
+	}
+
+	public static <T, R> List<R> map(Collection<T> data, Function<T, R> getter) {
+		List<R> output = new ArrayList<>();
+		if ( data!=null ) for (T x : data) {
+			output.add(getter.apply(x));
+		}
+		return output;
+	}
+
+	public static <T, R> List<R> map(T[] data, Function<T, R> getter) {
+		List<R> output = new ArrayList<>();
+		if ( data!=null ) for (T x : data) {
+			output.add(getter.apply(x));
 		}
 		return output;
 	}
@@ -103,22 +109,6 @@ public class ParrtCollections {
 			}
 		}
 		return -1;
-	}
-
-	public static <T, R> List<R> map(Collection<T> data, Function<T, R> getter) {
-		List<R> output = new ArrayList<>();
-		if ( data!=null ) for (T x : data) {
-			output.add(getter.apply(x));
-		}
-		return output;
-	}
-
-	public static <T, R> List<R> map(T[] data, Function<T, R> getter) {
-		List<R> output = new ArrayList<>();
-		if ( data!=null ) for (T x : data) {
-			output.add(getter.apply(x));
-		}
-		return output;
 	}
 
 	public static <T> Set<T> intersection(Set<T> a, Set<T> b) {
@@ -212,6 +202,16 @@ public class ParrtCollections {
 				list.add(null);
 			}
 		}
+	}
+
+	public static List<Integer> add(Collection<Integer> a, Collection<Integer> b) {
+		List<Integer> result = new ArrayList<>();
+		Iterator<Integer> ita = b.iterator();
+		Iterator<Integer> itb = b.iterator();
+		while ( ita.hasNext() && itb.hasNext() ) {
+			result.add(ita.next() + itb.next());
+		}
+		return result;
 	}
 
 	/** Sort a list into a new list; don't alter data argument */
