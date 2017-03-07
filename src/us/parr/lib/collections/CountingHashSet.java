@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static us.parr.lib.ParrtMath.log2;
@@ -142,9 +144,14 @@ public class CountingHashSet<T> implements CountingSet<T> {
 		data.clear();
 	}
 
+	/** Very expensive but iterate in reverse order of values like a histogram */
 	@Override
 	public Iterator<T> iterator() {
-		return data.keySet().iterator();
+		Map<T, MutableInt> result = new LinkedHashMap<T, MutableInt>();
+		data.entrySet().stream()
+			.sorted(Map.Entry.<T, MutableInt> comparingByValue().reversed())
+			.forEachOrdered(x -> result.put(x.getKey(), x.getValue()));
+		return result.keySet().iterator();
 	}
 
 	@Override
