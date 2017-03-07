@@ -119,6 +119,13 @@ public class ParrtCollections {
 		return inter;
 	}
 
+	public static <T> Set<T> union(Set<T> a, Set<T> b) {
+		Set<T> u = new HashSet<T>();
+		u.addAll(a);
+		u.addAll(b);
+		return u;
+	}
+
 	public static <T> Set<T> difference(Set<T> a, Set<T> b) { // 1,2,3 - 2 = 1,3
 		Set<T> diff = new HashSet<T>();
 		for (T v : a) {
