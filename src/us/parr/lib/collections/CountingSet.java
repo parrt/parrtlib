@@ -9,7 +9,7 @@ package us.parr.lib.collections;
 import java.util.List;
 import java.util.Set;
 
-public interface CountingSet<T> {
+public interface CountingSet<T> extends Set<T> {
 	Set<T> keySet();
 
 	boolean contains(Object o);

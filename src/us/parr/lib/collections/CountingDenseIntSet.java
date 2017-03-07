@@ -8,6 +8,8 @@ package us.parr.lib.collections;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -173,5 +175,62 @@ public class CountingDenseIntSet implements CountingSet<Integer> {
 		}
 		buf.append("}");
 		return buf.toString();
+	}
+
+	// satisfy the collections interface
+
+	@Override
+	public boolean isEmpty() {
+		for (int i = 0; i<set.length; i++) {
+			if ( set[i]>0 ) return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Iterator<Integer> iterator() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Object[] toArray() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <T> T[] toArray(T[] a) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public boolean remove(Object o) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public boolean containsAll(Collection<?> c) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public boolean addAll(Collection<? extends Integer> c) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public boolean removeAll(Collection<?> c) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public boolean retainAll(Collection<?> c) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void clear() {
+		for (int i = 0; i<set.length; i++) {
+			set[i] = 0;
+		}
 	}
 }
