@@ -177,7 +177,7 @@ public class CountingDenseIntSet implements CountingSet<Integer> {
 		return buf.toString();
 	}
 
-	// satisfy the collections interface
+	// satisfy the Set interface
 
 	@Override
 	public boolean isEmpty() {
@@ -218,12 +218,12 @@ public class CountingDenseIntSet implements CountingSet<Integer> {
 	}
 
 	@Override
-	public boolean removeAll(Collection<?> c) {
+	public boolean retainAll(Collection<?> c) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean retainAll(Collection<?> c) {
+	public boolean removeAll(Collection<?> c) {
 		throw new UnsupportedOperationException();
 	}
 
