@@ -6,15 +6,15 @@
 
 package us.parr.lib.collections;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.TreeSet;
 
 /** An implementation of a MultiMap that tracks the multiple values in
- *  an array list. The order of keys added to this map is preserved
+ *  a set. The order of keys added to this map is preserved
  *  through an implementation using {@see LinkedHashMap}.
  */
-public class ListMultiMap<K,V> extends BaseMultiMap<K,V> {
+public class SetMultiMap<K,V> extends BaseMultiMap<K, V> {
 	protected Collection<V> createValueCollection() {
-		return new ArrayList<V>();
+		return new TreeSet<V>();
 	}
 }
