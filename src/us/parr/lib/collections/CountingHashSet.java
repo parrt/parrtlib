@@ -144,7 +144,7 @@ public class CountingHashSet<T> implements CountingSet<T> {
 
 	@Override
 	public Iterator<T> iterator() {
-		throw new UnsupportedOperationException();
+		return data.keySet().iterator();
 	}
 
 	@Override

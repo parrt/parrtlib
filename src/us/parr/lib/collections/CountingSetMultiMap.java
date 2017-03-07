@@ -16,5 +16,10 @@ public class CountingSetMultiMap<K,V> extends BaseMultiMap<K, V> {
 	protected Collection<V> createValueCollection() {
 		return new CountingHashSet<V>();
 	}
+
+	@Override
+	public CountingSet<V> get(K key) {
+		return (CountingSet<V>)super.get(key);
+	}
 }
 

@@ -17,4 +17,9 @@ public class ListMultiMap<K,V> extends BaseMultiMap<K,V> {
 	protected Collection<V> createValueCollection() {
 		return new ArrayList<V>();
 	}
+
+	@Override
+	public ArrayList<V> get(K key) {
+		return (ArrayList<V>)super.get(key);
+	}
 }
