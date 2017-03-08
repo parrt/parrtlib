@@ -7,7 +7,6 @@
 package us.parr.lib.collections;
 
 import java.util.Collection;
-import java.util.function.Predicate;
 
 /** An implementation of a MultiMap that tracks the multiple values in
  *  a set. The order of keys added to this map is preserved
@@ -26,11 +25,6 @@ public class CountingSetMultiMap<K,V> extends BaseMultiMap<K, V> {
 	@Override
 	public CountingSet<V> get(K key) {
 		return (CountingSet<V>)super.get(key);
-	}
-
-	@Override
-	public CountingSetMultiMap<K,V> filterByKey(Predicate<K> pred) {
-		return (CountingSetMultiMap<K,V>)super.filterByKey(pred);
 	}
 }
 

@@ -9,6 +9,7 @@ package us.parr.lib.collections;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -52,6 +53,11 @@ public class CountingHashSet<T> implements CountingSet<T> {
 			old.v++;
 		}
 		return old==null;
+	}
+
+	@Override
+	public void set(T key, int count) {
+		data.put(key, new MutableInt(count));
 	}
 
 	@Override
@@ -122,6 +128,15 @@ public class CountingHashSet<T> implements CountingSet<T> {
 	@Override
 	public Set<T> keySet() {
 		return data.keySet();
+	}
+
+	@Override
+	public Set<Map.Entry<T, Integer>> entrySet() {
+		Set<Map.Entry<T, Integer>> entries = new HashSet<>();
+		for (Map.Entry<T, MutableInt> entry : data.entrySet()) {
+			entries.add(new CountingSetEntry<T>(entry.getKey(), entry.getValue().intValue()));
+		}
+		return entries;
 	}
 
 	@Override

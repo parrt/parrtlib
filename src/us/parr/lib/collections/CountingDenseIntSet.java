@@ -9,8 +9,10 @@ package us.parr.lib.collections;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static us.parr.lib.ParrtMath.log2;
@@ -49,6 +51,15 @@ public class CountingDenseIntSet implements CountingSet<Integer> {
 	}
 
 	@Override
+	public Set<Map.Entry<Integer, Integer>> entrySet() {
+		Set<Map.Entry<Integer, Integer>> entries = new HashSet<>();
+		for (Map.Entry<Integer, Integer> entry : entrySet()) {
+			entries.add(new CountingSetEntry<>(entry.getKey(), entry.getValue()));
+		}
+		return entries;
+	}
+
+	@Override
 	public boolean contains(Object o) {
 		if ( o==null || !(o instanceof Integer) ) return false;
 		int v = (Integer)o;
@@ -61,6 +72,11 @@ public class CountingDenseIntSet implements CountingSet<Integer> {
 		boolean isnew = set[key]==0;
 		set[key]++;
 		return isnew;
+	}
+
+	@Override
+	public void set(Integer key, int count) {
+		set[key] = count;
 	}
 
 	@Override

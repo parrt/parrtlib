@@ -7,6 +7,7 @@
 package us.parr.lib.collections;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface CountingSet<T> extends Set<T> {
@@ -16,7 +17,11 @@ public interface CountingSet<T> extends Set<T> {
 
 	boolean add(T key);
 
+	void set(T key, int count);
+
 	int count(T key);
+
+	Set<Map.Entry<T,Integer>> entrySet();
 
 	/** How many total elements added to set including repeats?
 	 *  Note that size() returns number of keys.

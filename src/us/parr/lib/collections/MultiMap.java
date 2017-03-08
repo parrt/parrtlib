@@ -7,8 +7,8 @@
 package us.parr.lib.collections;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
-import java.util.function.Predicate;
 
 /** A Map that tracks multiple values for each key.
  *  The order of the values for each key is unspecified.
@@ -17,6 +17,8 @@ public interface MultiMap<K, V> {
 	Collection<V> get(K key);
 
 	void put(K key, V value);
+
+	void set(K key, Collection<V> values);
 
 	int size();
 
@@ -28,9 +30,7 @@ public interface MultiMap<K, V> {
 
 	Set<K> keySet();
 
+	Set<Map.Entry<K,Collection<V>>> entrySet();
+
 	Collection<Collection<V>> values();
-
-	MultiMap<K,V> filterByKey(Predicate<K> pred);
-
-//	MultiMap<K, V> copy();
 }

@@ -8,11 +8,14 @@ package us.parr.lib.collections;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
-import java.util.function.Predicate;
 
 public abstract class BaseMultiMap<K, V> implements MultiMap<K, V> {
 	protected LinkedHashMap<K,Collection<V>> data = new LinkedHashMap<>();
+
+	public BaseMultiMap() {
+	}
 
 	@Override
 	public Collection<V> get(K key) {
@@ -26,16 +29,8 @@ public abstract class BaseMultiMap<K, V> implements MultiMap<K, V> {
 	}
 
 	@Override
-	public MultiMap<K,V> filterByKey(Predicate<K> pred) {
-		BaseMultiMap<K,V> output = createCollection();
-		if ( data!=null ) {
-			for (K x : data.keySet()) {
-				if ( pred.test(x) ) {
-					output.data.put(x, data.get(x));
-				}
-			}
-		}
-		return output;
+	public void set(K key, Collection<V> values) {
+		data.put(key, values);
 	}
 
 	protected abstract Collection<V> createValueCollection();
@@ -66,6 +61,11 @@ public abstract class BaseMultiMap<K, V> implements MultiMap<K, V> {
 	@Override
 	public Set<K> keySet() {
 		return data.keySet();
+	}
+
+	@Override
+	public Set<Map.Entry<K, Collection<V>>> entrySet() {
+		return data.entrySet();
 	}
 
 	@Override

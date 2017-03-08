@@ -7,6 +7,8 @@
 package us.parr.lib;
 
 import us.parr.lib.collections.CountingHashSet;
+import us.parr.lib.collections.CountingSet;
+import us.parr.lib.collections.MultiMap;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,6 +38,30 @@ public class ParrtCollections {
 		if ( data!=null ) for (T x : data) {
 			if ( pred.test(x) ) {
 				output.add(x);
+			}
+		}
+		return output;
+	}
+
+	public <K,V> MultiMap<K,V> filterByKey(MultiMap<K,V> data, Predicate<K> pred) {
+		MultiMap<K,V> output = (MultiMap<K,V>)dupObject(data);
+		if ( data!=null ) {
+			for (K x : data.keySet()) {
+				if ( pred.test(x) ) {
+					output.set(x, data.get(x));
+				}
+			}
+		}
+		return output;
+	}
+
+	public <K,V> MultiMap<K,V> filterByValue(MultiMap<K,V> data, Predicate<Collection<V>> pred) {
+		MultiMap<K,V> output = (MultiMap<K,V>)dupObject(data);
+		if ( data!=null ) {
+			for (K x : data.keySet()) {
+				if ( pred.test(data.get(x)) ) {
+					output.set(x, data.get(x));
+				}
 			}
 		}
 		return output;
@@ -229,15 +255,70 @@ public class ParrtCollections {
 		return dup;
 	}
 
-	/** Return a LinkedHashMap sorted by key */
-	public <K extends Comparable<? super K>,V> LinkedHashMap<K,V> sorted(Map<K,V> data) {
-		LinkedHashMap<K,V> dup = new LinkedHashMap<K, V>();
-		List<K> keys = new ArrayList<K>();
-		keys.addAll(data.keySet());
-		Collections.sort(keys);
-		for (K k : keys) {
-			dup.put(k, data.get(k));
+	/** Return a LinkedHashMap from data map sorted by key */
+	public <K extends Comparable<? super K>,V> LinkedHashMap<K,V> sortByKey(Map<K,V> data) {
+		LinkedHashMap<K, V> sorted = new LinkedHashMap<>();
+		data.entrySet().stream()
+			.sorted(Map.Entry.<K,V>comparingByKey())
+			.forEachOrdered(x -> sorted.put(x.getKey(), x.getValue()));
+		return sorted;
+	}
+
+	/** Return a LinkedHashMap from data map sorted by value */
+	public <K,V extends Comparable<? super V>> LinkedHashMap<K,V> sortByValue(Map<K,V> data) {
+		LinkedHashMap<K, V> sorted = new LinkedHashMap<>();
+		data.entrySet().stream()
+			.sorted(Map.Entry.<K,V>comparingByValue())
+			.forEachOrdered(x -> sorted.put(x.getKey(), x.getValue()));
+		return sorted;
+	}
+
+	public <K extends Comparable<? super K>,V> LinkedHashMap<K,Collection<V>> sortByKey(MultiMap<K,V> data) {
+		LinkedHashMap<K, Collection<V>> sorted = new LinkedHashMap<>();
+		data.entrySet().stream()
+			.sorted(Map.Entry.<K,Collection<V>>comparingByKey())
+			.forEachOrdered(x -> sorted.put(x.getKey(), x.getValue()));
+		return sorted;
+	}
+
+	public <T> LinkedHashMap<T, Integer> sortByValueReverse(CountingSet<T> data) {
+		LinkedHashMap<T, Integer> sorted = new LinkedHashMap<>();
+		data.entrySet().stream()
+			.sorted(Map.Entry.<T, Integer> comparingByValue().reversed())
+			.forEachOrdered(x -> sorted.put(x.getKey(), x.getValue()));
+		return sorted;
+	}
+
+	public <T> LinkedHashMap<T, Integer> sortByValue(CountingSet<T> data) {
+		LinkedHashMap<T, Integer> sorted = new LinkedHashMap<>();
+		data.entrySet().stream()
+			.sorted(Map.Entry.<T, Integer> comparingByValue())
+			.forEachOrdered(x -> sorted.put(x.getKey(), x.getValue()));
+		return sorted;
+	}
+
+	public <T extends Comparable<? super T>> LinkedHashMap<T, Integer> sortByKey(CountingSet<T> data) {
+		LinkedHashMap<T, Integer> sorted = new LinkedHashMap<>();
+		data.entrySet().stream()
+			.sorted(Map.Entry.<T, Integer> comparingByKey())
+			.forEachOrdered(x -> sorted.put(x.getKey(), x.getValue()));
+		return sorted;
+	}
+
+	public <T extends Comparable<? super T>> LinkedHashMap<T, Integer> sortByKeyReverse(CountingSet<T> data) {
+		LinkedHashMap<T, Integer> sorted = new LinkedHashMap<>();
+		data.entrySet().stream()
+			.sorted(Map.Entry.<T, Integer> comparingByKey().reversed())
+			.forEachOrdered(x -> sorted.put(x.getKey(), x.getValue()));
+		return sorted;
+	}
+
+	private static Object dupObject(Object o) {
+		try {
+			return o.getClass().newInstance();
 		}
-		return dup;
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
