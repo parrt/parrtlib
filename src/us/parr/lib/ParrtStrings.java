@@ -74,4 +74,9 @@ public class ParrtStrings {
 	public static String decapitalize(String s) {
 		return Character.toLowerCase(s.charAt(0)) + s.substring(1);
 	}
+
+	/** Remove first and last char from argument */
+	public static String stripQuotes(String quotedString) {
+		return quotedString.substring(1, quotedString.length()-1);
+	}
 }
