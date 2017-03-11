@@ -29,7 +29,7 @@ public class ParrtCollections {
 		return list;
 	}
 
-	public static <T> List<T> repeated(int n, T o) {
+	public static <T> List<T> repeated(T o, int n) {
 		ArrayList<T> list = new ArrayList<T>();
 		for (int i = 0; i<n; i++) {
 			list.add(o);
