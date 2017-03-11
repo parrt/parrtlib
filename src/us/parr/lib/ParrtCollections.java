@@ -23,6 +23,20 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class ParrtCollections {
+	public static <T> List<T> listOf(T o) {
+		ArrayList<T> list = new ArrayList<T>();
+		list.add(o);
+		return list;
+	}
+
+	public static <T> List<T> repeated(int n, T o) {
+		ArrayList<T> list = new ArrayList<T>();
+		for (int i = 0; i<n; i++) {
+			list.add(o);
+		}
+		return list;
+	}
+
 	public static CountingHashSet<Integer> valueCountsInColumn(List<int[]> X, int colIndex) {
 		CountingHashSet<Integer> valueCounts = new CountingHashSet<>();
 		for (int i = 0; i<X.size(); i++) { // for each row, count different values for col colIndex
