@@ -159,6 +159,14 @@ public class ParrtCollections {
 		return inter;
 	}
 
+	public static <T> CountingSet<T> intersection(CountingSet<T> a, CountingSet<T> b) {
+		CountingSet<T> inter = new CountingHashSet<T>();
+		for (T v : a) {
+			if ( b.contains(v) ) inter.add(v);
+		}
+		return inter;
+	}
+
 	public static <T> Set<T> union(Set<T> a, Set<T> b) {
 		Set<T> u = new HashSet<T>();
 		u.addAll(a);
@@ -166,8 +174,23 @@ public class ParrtCollections {
 		return u;
 	}
 
+	public static <T> CountingSet<T> union(CountingSet<T> a, CountingSet<T> b) {
+		CountingSet<T> u = new CountingHashSet<T>();
+		u.addAll(a);
+		u.addAll(b);
+		return u;
+	}
+
 	public static <T> Set<T> difference(Set<T> a, Set<T> b) { // 1,2,3 - 2 = 1,3
 		Set<T> diff = new HashSet<T>();
+		for (T v : a) {
+			if ( !b.contains(v) ) diff.add(v);
+		}
+		return diff;
+	}
+
+	public static <T> CountingSet<T> difference(CountingSet<T> a, CountingSet<T> b) { // 1,2,3 - 2 = 1,3
+		CountingSet<T> diff = new CountingHashSet<T>();
 		for (T v : a) {
 			if ( !b.contains(v) ) diff.add(v);
 		}
