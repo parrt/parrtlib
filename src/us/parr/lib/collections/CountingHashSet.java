@@ -123,6 +123,21 @@ public class CountingHashSet<T> implements CountingSet<T> {
 		return entropy;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder buf = new StringBuilder();
+		buf.append("{");
+		int n = 0;
+		for (T o : this) {
+			MutableInt value = data.get(o);
+			if ( n>0 ) buf.append(", ");
+			buf.append(String.format("%s:%d", o.toString(), value.intValue()));
+			n++;
+		}
+		buf.append("}");
+		return buf.toString();
+	}
+
 	// satisfy the Set interface
 
 	@Override
@@ -171,31 +186,26 @@ public class CountingHashSet<T> implements CountingSet<T> {
 
 	@Override
 	public Object[] toArray() {
-		throw new UnsupportedOperationException();
+		return data.keySet().toArray();
 	}
 
 	@Override
 	public <T1> T1[] toArray(T1[] a) {
-		throw new UnsupportedOperationException();
+		return data.keySet().toArray(a);
 	}
 
 	@Override
 	public boolean containsAll(Collection<?> c) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean addAll(Collection<? extends T> c) {
-		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException(getClass().getSimpleName()+".containsAll");
 	}
 
 	@Override
 	public boolean retainAll(Collection<?> c) {
-		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException(getClass().getSimpleName()+".retainAll");
 	}
 
 	@Override
 	public boolean removeAll(Collection<?> c) {
-		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException(getClass().getSimpleName()+".removeAll");
 	}
 }
