@@ -308,7 +308,7 @@ public class ParrtCollections {
 	}
 
 	/** Return a LinkedHashMap from data map sorted by key */
-	public static <K extends Comparable<? super K>,V> LinkedHashMap<K,V> sortByKey(Map<K,V> data) {
+	public static <K extends Comparable<? super K>,V> LinkedHashMap<K,V> sortedByKey(Map<K,V> data) {
 		LinkedHashMap<K, V> sorted = new LinkedHashMap<>();
 		data.entrySet().stream()
 			.sorted(Map.Entry.<K,V>comparingByKey())
@@ -317,7 +317,7 @@ public class ParrtCollections {
 	}
 
 	/** Return a LinkedHashMap from data map sorted by value */
-	public static <K,V extends Comparable<? super V>> LinkedHashMap<K,V> sortByValue(Map<K,V> data) {
+	public static <K,V extends Comparable<? super V>> LinkedHashMap<K,V> sortedByValue(Map<K,V> data) {
 		LinkedHashMap<K, V> sorted = new LinkedHashMap<>();
 		data.entrySet().stream()
 			.sorted(Map.Entry.<K,V>comparingByValue())
@@ -325,7 +325,7 @@ public class ParrtCollections {
 		return sorted;
 	}
 
-	public static <K extends Comparable<? super K>,V> LinkedHashMap<K,Collection<V>> sortByKey(MultiMap<K,V> data) {
+	public static <K extends Comparable<? super K>,V> LinkedHashMap<K,Collection<V>> sortedByKey(MultiMap<K,V> data) {
 		LinkedHashMap<K, Collection<V>> sorted = new LinkedHashMap<>();
 		data.entrySet().stream()
 			.sorted(Map.Entry.<K,Collection<V>>comparingByKey())
@@ -333,7 +333,7 @@ public class ParrtCollections {
 		return sorted;
 	}
 
-	public static <T> LinkedHashMap<T, Integer> sortByValueReverse(CountingSet<T> data) {
+	public static <T> LinkedHashMap<T, Integer> sortedByValueReverse(CountingSet<T> data) {
 		LinkedHashMap<T, Integer> sorted = new LinkedHashMap<>();
 		data.entrySet().stream()
 			.sorted(Map.Entry.<T, Integer> comparingByValue().reversed())
@@ -341,7 +341,7 @@ public class ParrtCollections {
 		return sorted;
 	}
 
-	public static <T> LinkedHashMap<T, Integer> sortByValue(CountingSet<T> data) {
+	public static <T> LinkedHashMap<T, Integer> sortedByValue(CountingSet<T> data) {
 		LinkedHashMap<T, Integer> sorted = new LinkedHashMap<>();
 		data.entrySet().stream()
 			.sorted(Map.Entry.<T, Integer> comparingByValue())
@@ -349,7 +349,7 @@ public class ParrtCollections {
 		return sorted;
 	}
 
-	public static <T extends Comparable<? super T>> LinkedHashMap<T, Integer> sortByKey(CountingSet<T> data) {
+	public static <T extends Comparable<? super T>> LinkedHashMap<T, Integer> sortedByKey(CountingSet<T> data) {
 		LinkedHashMap<T, Integer> sorted = new LinkedHashMap<>();
 		data.entrySet().stream()
 			.sorted(Map.Entry.<T, Integer> comparingByKey())
@@ -357,7 +357,7 @@ public class ParrtCollections {
 		return sorted;
 	}
 
-	public static <T extends Comparable<? super T>> LinkedHashMap<T, Integer> sortByKeyReverse(CountingSet<T> data) {
+	public static <T extends Comparable<? super T>> LinkedHashMap<T, Integer> sortedByKeyReverse(CountingSet<T> data) {
 		LinkedHashMap<T, Integer> sorted = new LinkedHashMap<>();
 		data.entrySet().stream()
 			.sorted(Map.Entry.<T, Integer> comparingByKey().reversed())
