@@ -23,13 +23,13 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class ParrtCollections {
-	public static <T> List<T> listOf(T o) {
+	public static <T> List<T> list(T... values) {
 		ArrayList<T> list = new ArrayList<T>();
-		list.add(o);
+		Collections.addAll(list, values);
 		return list;
 	}
 
-	public static <T> List<T> repeated(T o, int n) {
+	public static <T> List<T> repeat(T o, int n) {
 		ArrayList<T> list = new ArrayList<T>();
 		for (int i = 0; i<n; i++) {
 			list.add(o);
@@ -176,6 +176,13 @@ public class ParrtCollections {
 
 	public static <T> CountingSet<T> union(CountingSet<T> a, CountingSet<T> b) {
 		CountingSet<T> u = new CountingHashSet<T>();
+		u.addAll(a);
+		u.addAll(b);
+		return u;
+	}
+
+	public static <T> List<T> union(List<T> a, List<T> b) {
+		List<T> u = new ArrayList<T>();
 		u.addAll(a);
 		u.addAll(b);
 		return u;
