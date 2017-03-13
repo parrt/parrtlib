@@ -23,10 +23,18 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class ParrtCollections {
+	@SafeVarargs
 	public static <T> List<T> list(T... values) {
 		ArrayList<T> list = new ArrayList<T>();
 		Collections.addAll(list, values);
 		return list;
+	}
+
+	@SafeVarargs
+	public static <T> Set<T> set(T... values) {
+		Set<T> s = new HashSet<T>();
+		Collections.addAll(s, values);
+		return s;
 	}
 
 	public static <T> List<T> repeat(T o, int n) {
