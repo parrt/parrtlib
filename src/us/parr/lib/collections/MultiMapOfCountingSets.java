@@ -7,19 +7,24 @@
 package us.parr.lib.collections;
 
 import java.util.Collection;
-import java.util.TreeSet;
 
 /** An implementation of a MultiMap that tracks the multiple values in
  *  a set. The order of keys added to this map is preserved
  *  through an implementation using {@see LinkedHashMap}.
  */
-public class SetMultiMap<K,V> extends BaseMultiMap<K, V> {
+public class MultiMapOfCountingSets<K,V> extends BaseMultiMap<K, V> {
 	protected Collection<V> createValueCollection() {
-		return new TreeSet<V>();
+		return new CountingHashSet<V>();
 	}
 
 	@Override
 	protected BaseMultiMap<K, V> createCollection() {
-		return new SetMultiMap<K, V>();
+		return new MultiMapOfCountingSets<K, V>();
+	}
+
+	@Override
+	public CountingSet<V> get(K key) {
+		return (CountingSet<V>)super.get(key);
 	}
 }
+

@@ -6,25 +6,25 @@
 
 package us.parr.lib.collections;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /** An implementation of a MultiMap that tracks the multiple values in
- *  a set. The order of keys added to this map is preserved
+ *  an array list. The order of keys added to this map is preserved
  *  through an implementation using {@see LinkedHashMap}.
  */
-public class CountingSetMultiMap<K,V> extends BaseMultiMap<K, V> {
+public class MultiMapOfLists<K,V> extends BaseMultiMap<K,V> {
 	protected Collection<V> createValueCollection() {
-		return new CountingHashSet<V>();
+		return new ArrayList<V>();
 	}
 
 	@Override
 	protected BaseMultiMap<K, V> createCollection() {
-		return new CountingSetMultiMap<K, V>();
+		return new MultiMapOfLists<K, V>();
 	}
 
 	@Override
-	public CountingSet<V> get(K key) {
-		return (CountingSet<V>)super.get(key);
+	public ArrayList<V> get(K key) {
+		return (ArrayList<V>)super.get(key);
 	}
 }
-
