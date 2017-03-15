@@ -13,6 +13,7 @@ import us.parr.lib.collections.MultiMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -193,6 +194,19 @@ public class ParrtCollections {
 		List<T> u = new ArrayList<T>();
 		u.addAll(a);
 		u.addAll(b);
+		return u;
+	}
+
+	public static <K,V> Map<K,V> union(Map<K,V> a, Map<K,V> b) {
+		Map<K,V> u = new HashMap<>();
+		if ( a==null || a.size()==0 ) return b;
+		if ( b==null || b.size()==0 ) return a;
+		for (K key : a.keySet()) {
+			u.put(key, a.get(key));
+		}
+		for (K key : b.keySet()) {
+			u.put(key, b.get(key));
+		}
 		return u;
 	}
 
