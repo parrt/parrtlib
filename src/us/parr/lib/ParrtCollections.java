@@ -9,6 +9,7 @@ package us.parr.lib;
 import us.parr.lib.collections.CountingHashSet;
 import us.parr.lib.collections.CountingSet;
 import us.parr.lib.collections.MultiMap;
+import us.parr.lib.collections.MultiMapOfSets;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -197,10 +198,25 @@ public class ParrtCollections {
 		return u;
 	}
 
-	public static <K,V> Map<K,V> union(Map<K,V> a, Map<K,V> b) {
-		Map<K,V> u = new HashMap<>();
-		if ( a==null || a.size()==0 ) return b;
-		if ( b==null || b.size()==0 ) return a;
+	public static <K,V> MultiMap<K,V> union(Map<K,V> a, Map<K,V> b) {
+		MultiMap<K,V> u = new MultiMapOfSets<>();
+		if ( a==null || b==null ) {
+			return null;
+		}
+		for (K key : a.keySet()) {
+			u.put(key, a.get(key));
+		}
+		for (K key : b.keySet()) {
+			u.put(key, b.get(key));
+		}
+		return u;
+	}
+
+	public static <K,V> Map<K,V> uniqueUnion(Map<K,V> a, Map<K,V> b) {
+		Map<K,V> u = new HashMap<K, V>();
+		if ( a==null || b==null ) {
+			return null;
+		}
 		for (K key : a.keySet()) {
 			u.put(key, a.get(key));
 		}
