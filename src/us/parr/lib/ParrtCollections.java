@@ -198,7 +198,10 @@ public class ParrtCollections {
 		return u;
 	}
 
-	public static <K,V> MultiMap<K,V> union(Map<K,V> a, Map<K,V> b) {
+	/** Return a MultiMap with merged values for keys in common to
+	 *  arguments a and b. Returns null if either argument is null.
+	 */
+	public static <K,V> MultiMap<K,V> merged(Map<K,V> a, Map<K,V> b) {
 		MultiMap<K,V> u = new MultiMapOfSets<>();
 		if ( a==null || b==null ) {
 			return null;
@@ -212,7 +215,13 @@ public class ParrtCollections {
 		return u;
 	}
 
-	public static <K,V> Map<K,V> uniqueUnion(Map<K,V> a, Map<K,V> b) {
+	/** Return a Map with all key-value pairs from arguments a and b.
+	 *  For keys common to both, the result Map gives precedence to b values,
+	 *  meaning that result[key] = b[key] if key in a and key in b.
+	 *
+	 *  Returns null if either argument is null.
+	 */
+	public static <K,V> Map<K,V> union(Map<K,V> a, Map<K,V> b) {
 		Map<K,V> u = new HashMap<K, V>();
 		if ( a==null || b==null ) {
 			return null;
