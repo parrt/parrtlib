@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -164,6 +165,31 @@ public class ParrtIO {
 		int lastDot = name.lastIndexOf('.');
 		if ( lastDot<0 ) return name;
 		return name.substring(0, lastDot);
+	}
+
+	/** e.g., replaceFileSuffix("foo.java", ".class") */
+	public static String replaceFileSuffix(String s, String suffix) {
+		if ( s==null || suffix==null ) return s;
+		int dot = s.lastIndexOf('.');
+		return s.substring(0,dot)+suffix;
+	}
+
+	public static String basename(String fullyQualifiedFileName) {
+		Path path = Paths.get(fullyQualifiedFileName);
+		return basename(path);
+	}
+
+	public static String dirname(String fullyQualifiedFileName) {
+		Path path = Paths.get(fullyQualifiedFileName);
+		return dirname(path);
+	}
+
+	public static String basename(Path path) {
+		return path.getName(path.getNameCount()-1).toString();
+	}
+
+	public static String dirname(Path path) {
+		return path.getName(0).toString();
 	}
 
 	public static List<String> getFilenames(File f, String inputFilePattern) throws Exception {
