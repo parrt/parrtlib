@@ -67,6 +67,31 @@ public class ParrtCollections {
 		return output;
 	}
 
+	public static <K,V> Map<K,V> filterByKey(Map<K,V> data, Predicate<K> pred) {
+		Map<K,V> output = (Map<K,V>)dupObject(data);
+		if ( data!=null ) {
+			for (K x : data.keySet()) {
+				if ( pred.test(x) ) {
+					output.put(x, data.get(x));
+				}
+			}
+		}
+		return output;
+	}
+
+	public static <K,V> Map<K,V> filterByValue(Map<K,V> data, Predicate<V> pred) {
+		Map<K,V> output = (Map<K,V>)dupObject(data);
+		if ( data!=null ) {
+			for (K x : data.keySet()) {
+				if ( pred.test(data.get(x)) ) {
+					output.put(x, data.get(x));
+				}
+			}
+		}
+		return output;
+	}
+
+
 	public static <K,V> MultiMap<K,V> filterByKey(MultiMap<K,V> data, Predicate<K> pred) {
 		MultiMap<K,V> output = (MultiMap<K,V>)dupObject(data);
 		if ( data!=null ) {
