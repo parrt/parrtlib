@@ -47,6 +47,24 @@ public class ParrtCollections {
 		return list;
 	}
 
+	/** Return a map from data element T to its index */
+	public static <T> Map<T,Integer> asMap(T[] data) {
+		Map<T,Integer> m = new HashMap<>();
+		for (int i = 0; i<data.length; i++) {
+			m.put(data[i], i);
+		}
+		return m;
+	}
+
+	/** Return a map from data element T to its index */
+	public static <T> Map<T,Integer> asMap(List<T> data) {
+		Map<T,Integer> m = new HashMap<>();
+		for (int i = 0; i<data.size(); i++) {
+			m.put(data.get(i), i);
+		}
+		return m;
+	}
+
 	public static CountingHashSet<Integer> valueCountsInColumn(List<int[]> X, int colIndex) {
 		CountingHashSet<Integer> valueCounts = new CountingHashSet<>();
 		for (int i = 0; i<X.size(); i++) { // for each row, count different values for col colIndex
