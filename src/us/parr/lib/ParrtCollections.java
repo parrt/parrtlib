@@ -150,9 +150,21 @@ public class ParrtCollections {
 		return output;
 	}
 
-	public static <T> T findFirst(Collection<T> data, Predicate<T> pred) {
-		if ( data!=null ) {
+	public static <T> T findFirst(List<? extends T> data, Predicate<T> pred) {
+		if ( data==null ) {
 			for (T x : data) {
+				if ( pred.test(x) ) {
+					return x;
+				}
+			}
+		}
+		return null;
+	}
+
+	public static <T> T findLast(List<? extends T> data, Predicate<T> pred) {
+		if ( data!=null ) {
+			for (int i = data.size()-1; i>=0; i--) {
+				T x = data.get(i);
 				if ( pred.test(x) ) {
 					return x;
 				}
