@@ -170,11 +170,33 @@ public class ParrtStats {
 		return entropy;
 	}
 
-	/** Produce an array of n random integers in [0..highvalue) */
-	public static int[] randint(int n, int highvalue) {
+	/** Produce an array of n uniform random integers in [low..high) */
+	public static int[] uniform(int low, int high, int n) {
 		int[] values = new int[n];
 		for (int i = 0; i<n; i++) {
-			values[i] = random.nextInt(highvalue);
+			values[i] = low + random.nextInt(high);
+		}
+		return values;
+	}
+
+	/** Produce an array of n normally-distributed random integers with specific
+	 *  mean and standard deviation.
+	 */
+	public static double[] normal(float mean, float stddev, int n) {
+		double[] values = new double[n];
+		for (int i = 0; i<n; i++) {
+			values[i] = mean + random.nextGaussian() * stddev;
+		}
+		return values;
+	}
+
+	/** Produce an array of n standard-normally distributed random integers
+	 *  (mean=0, standard deviation=1).
+	 */
+	public static double[] stdnormal(int n) {
+		double[] values = new double[n];
+		for (int i = 0; i<n; i++) {
+			values[i] = random.nextGaussian();
 		}
 		return values;
 	}
