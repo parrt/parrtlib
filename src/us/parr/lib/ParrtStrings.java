@@ -79,4 +79,16 @@ public class ParrtStrings {
 	public static String stripQuotes(String quotedString) {
 		return quotedString.substring(1, quotedString.length()-1);
 	}
+
+	public static String stripQuotes(String quotedString, int n) {
+		return quotedString.substring(n, quotedString.length()-n);
+	}
+
+	public static String toHexString(byte[] digest) {
+		StringBuilder buf = new StringBuilder();
+		for (byte b : digest) {
+			buf.append(String.format("%02X", b));
+		}
+		return buf.toString();
+	}
 }
