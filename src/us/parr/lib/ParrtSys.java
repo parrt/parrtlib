@@ -6,13 +6,10 @@
 
 package us.parr.lib;
 
-import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.DefaultExecutor;
-import org.apache.commons.exec.ExecuteException;
-import org.apache.commons.exec.PumpStreamHandler;
+import us.parr.lib.util.Pair;
+import us.parr.lib.util.StreamVacuum;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.File;
 
 public class ParrtSys {
 	/** Given an executable command name and arguments, execute the process
@@ -21,38 +18,17 @@ public class ParrtSys {
 	 *
 	 *  The returned output strings are "" if empty, not null.
 	 */
-	public static String[] exec(String executable, String... args) {
-		CommandLine cmdLine = new CommandLine(executable);
-		cmdLine.addArguments(args);
-		return exec(cmdLine);
-	}
-
-	/** Given a command line including executable command name and arguments,
-	 *  execute the process and return the {exit code (as a string),
-	 *  stdout, stderr} in a String array.
-	 *
-	 *  The returned output strings are "" if empty, not null.
-	 */
-	public static String[] exec(String cmdLine) {
-		return exec(CommandLine.parse(cmdLine));
-	}
-
-	public static String[] exec(CommandLine cmdLine) {
-		int exitCode = 1;
-		ByteArrayOutputStream stdout = new ByteArrayOutputStream();
-		ByteArrayOutputStream stderr = new ByteArrayOutputStream();
-		try {
-		    DefaultExecutor executor = new DefaultExecutor();
-			executor.setStreamHandler(new PumpStreamHandler(stdout, stderr));
-			exitCode = executor.execute(cmdLine);
-		}
-		catch (ExecuteException e) {
-			//e.printStackTrace(System.err);
-			// stderr should have reason
-		}
-		catch (IOException ioe) {
-			ioe.printStackTrace(System.err);
-		}
-		return new String[] {String.valueOf(exitCode), stdout.toString(), stderr.toString()};
+	public static Pair<String, String> exec(String execPath, String... args)
+		throws Exception
+	{
+		Process process = Runtime.getRuntime().exec(args, null, new File(execPath));
+		StreamVacuum stdoutVacuum = new StreamVacuum(process.getInputStream());
+		StreamVacuum stderrVacuum = new StreamVacuum(process.getErrorStream());
+		stdoutVacuum.start();
+		stderrVacuum.start();
+		process.waitFor();
+		stdoutVacuum.join();
+		stderrVacuum.join();
+		return new Pair<>(stdoutVacuum.toString(), stderrVacuum.toString());
 	}
 }
