@@ -16,9 +16,15 @@ public class ParrtSys {
 	 *
 	 *  The returned output strings are "" if empty, not null.
 	 */
-	public static String[] exec(String execPath, String... args) {
+	public static String[] execInDir(String execPath, String... args) {
 		try {
-			Process process = Runtime.getRuntime().exec(args, null, new File(execPath));
+			Process process;
+			if ( execPath!=null ) {
+				process = Runtime.getRuntime().exec(args, null, new File(execPath));
+			}
+			else {
+				process = Runtime.getRuntime().exec(args, null);
+			}
 			StreamVacuum stdoutVacuum = new StreamVacuum(process.getInputStream());
 			StreamVacuum stderrVacuum = new StreamVacuum(process.getErrorStream());
 			stdoutVacuum.start();
@@ -30,6 +36,17 @@ public class ParrtSys {
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);
+		}
+	}
+
+	public static String[] exec(String... args) {
+		return execInDir(null, args);
+	}
+
+	public static void execCommandLine(String cmd) {
+		String[] exec = ParrtSys.exec("bash", "-c", cmd);
+		if ( exec[1]!=null && exec[1].length()>0 ) {
+			System.err.println(exec[1]);
 		}
 	}
 }

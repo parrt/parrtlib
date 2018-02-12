@@ -91,4 +91,12 @@ public class ParrtStrings {
 		}
 		return buf.toString();
 	}
+
+	/**
+	 Abbreviate a string by chopping to max length n then add "...".
+	 Result is at most n+3 chars long.
+	 */
+	public static String abbrevString(String s, int n) {
+		return s.length() <= n ? s : s.substring(0,n) + "...";
+	}
 }
