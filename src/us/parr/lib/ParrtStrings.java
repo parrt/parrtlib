@@ -6,6 +6,7 @@
 
 package us.parr.lib;
 
+import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.List;
 
@@ -82,6 +83,18 @@ public class ParrtStrings {
 
 	public static String stripQuotes(String quotedString, int n) {
 		return quotedString.substring(n, quotedString.length()-n);
+	}
+
+	public static String md5hash(String text) {
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			byte[] digest = md.digest(text.getBytes());
+			return toHexString(digest);
+		}
+		catch (Exception e) {
+			e.printStackTrace(System.err);
+		}
+		return "bad-hash";
 	}
 
 	public static String toHexString(byte[] digest) {
