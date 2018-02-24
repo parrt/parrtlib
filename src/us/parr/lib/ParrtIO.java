@@ -179,6 +179,7 @@ public class ParrtIO {
 	public static String replaceFileExtension(String s, String suffix) {
 		if ( s==null || suffix==null ) return s;
 		int dot = s.lastIndexOf('.');
+		if ( dot<0 ) return s;
 		return s.substring(0,dot)+suffix;
 	}
 
