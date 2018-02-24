@@ -167,8 +167,16 @@ public class ParrtIO {
 		return name.substring(0, lastDot);
 	}
 
+	/** Return file extension, if any, without the '.' */
+	public static String fileExtension(String name) {
+		if ( name==null ) return null;
+		int lastDot = name.lastIndexOf('.');
+		if ( lastDot<0 ) return null;
+		return name.substring(lastDot+1);
+	}
+
 	/** e.g., replaceFileSuffix("foo.java", ".class") */
-	public static String replaceFileSuffix(String s, String suffix) {
+	public static String replaceFileExtension(String s, String suffix) {
 		if ( s==null || suffix==null ) return s;
 		int dot = s.lastIndexOf('.');
 		return s.substring(0,dot)+suffix;
