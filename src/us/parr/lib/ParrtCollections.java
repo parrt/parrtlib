@@ -151,7 +151,7 @@ public class ParrtCollections {
 	}
 
 	public static <T> T findFirst(List<? extends T> data, Predicate<T> pred) {
-		if ( data==null ) {
+		if ( data!=null ) {
 			for (T x : data) {
 				if ( pred.test(x) ) {
 					return x;
